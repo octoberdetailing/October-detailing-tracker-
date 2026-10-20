@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>October Detailing – Bills</title>
+<style>
+:root{--bg:#f3f5f9;--card:#fff;--tx:#16202e;--mu:#667085;--bd:#e3e7ee;--ac:#1f3864;--acx:#fff;--ok:#0f8a4b;--okb:#dff5e8;--bad:#c0392b;--badb:#fde4e0;--in:#f6f8fc;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0f1520;--card:#18212f;--tx:#eef2f8;--mu:#9aa6b8;--bd:#2a3547;--ac:#7aa2f7;--acx:#0f1520;--ok:#5fd596;--okb:#143324;--bad:#ff8a7a;--badb:#3a1c19;--in:#101826}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0f1520;--card:#18212f;--tx:#eef2f8;--mu:#9aa6b8;--bd:#2a3547;--ac:#7aa2f7;--acx:#0f1520;--ok:#5fd596;--okb:#143324;--bad:#ff8a7a;--badb:#3a1c19;--in:#101826}
+*{box-sizing:border-box}html,body{margin:0}body{background:var(--bg);color:var(--tx);font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;padding:0 14px 96px}
+header{padding:16px 2px 8px}header b{font-size:22px;letter-spacing:.2px}header span{display:block;color:var(--mu);font-size:13px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin:12px 0}
+h3{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--mu)}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{font-size:12px;color:var(--mu);display:block;margin-bottom:3px}
+input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--in);color:var(--tx);font:inherit;min-width:0}
+.seg{display:flex;gap:6px;margin-top:10px}.seg button{flex:1}
+button{font:inherit;border:1px solid var(--bd);background:var(--in);color:var(--tx);padding:10px;border-radius:10px;cursor:pointer}
+button.on{background:var(--ac);color:var(--acx);border-color:var(--ac);font-weight:600}
+.big{border-radius:14px;padding:16px;margin:12px 0;font-weight:700;font-size:19px}.big small{display:block;font-weight:400;font-size:13px;margin-top:4px;opacity:.85}
+.ok{background:var(--okb);color:var(--ok)}.bad{background:var(--badb);color:var(--bad)}
+.ln{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--bd)}.ln:last-child{border:0}.ln span:first-child{color:var(--mu)}
+.pill{font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap}
+.p-ok{background:var(--okb);color:var(--ok)}.p-bad{background:var(--badb);color:var(--bad)}.p-gr{background:var(--bd);color:var(--mu)}
+.bill{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd)}.bill:last-child{border:0}
+.bill .nm{flex:1;min-width:0}.bill .nm small{display:block;color:var(--mu);font-size:12px}.bill.pd .nm b{text-decoration:line-through;color:var(--mu)}
+.chk{width:26px;height:26px;border-radius:8px;border:2px solid var(--bd);padding:0;background:var(--in);flex:none}.chk.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.edit{display:grid;grid-template-columns:1fr 84px;gap:8px;padding:10px 0;border-bottom:1px solid var(--bd)}.edit .r2{grid-column:1/3;display:grid;grid-template-columns:1fr 70px 44px;gap:8px}
+.edit .x{color:var(--bad)}
+.add{width:100%;margin-top:10px;border-style:dashed;color:var(--ac)}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;gap:6px;background:var(--card);border-top:1px solid var(--bd);padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px))}
+nav button{flex:1;border:0;background:none;padding:10px 4px;color:var(--mu);font-weight:600}nav button.on{background:var(--in);color:var(--ac)}
+.note{color:var(--mu);font-size:12px;margin-top:8px}
+</style></head><body>
+<header><b>October Detailing</b><span>Money &amp; bills</span></header>
+<div id="app"></div>
+<nav id="nav"><button data-tab="plan">Plan</button><button data-tab="bills">Bills</button><button data-tab="save">Save For</button></nav>
+<script>
+var D={cash:700,square:80.07,occu:135,first:'OCCU',
+bills:[["Rent",700,"Cash",1],["My car insurance",300,"Square",2],["Girlfriend car insurance",300,"Square",3],["Car payment",100,"Square",4],["Your phone",90,"Square",5],["Jazz phone",30,"Square",6],["Your PC",90,"Square",7],["Website",25,"Square",8],["Ark server",17,"Square",9],["Apple",10,"Square",10],["Spotify",13,"Square",11],["Disney+",13,"Square",12],["Paramount+",9,"Square",13],["Snapchat",2,"Square",14]].map(function(b){return{n:b[0],amt:b[1],acct:b[2],pri:b[3],paid:false}}),
+save:[["License",200],["Tires",300],["CV axles",150],["Alignment",175],["Headlights",250],["Body damage",400],["LLC filing",100],["Business insurance",400]].map(function(s){return{n:s[0],cost:s[1],saved:0}})};
+var S=D,tab='plan',ref=null,timer=null;
+var $=function(s){return document.querySelector(s)},m=function(n){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(Math.round(n*100)/100)},r2=function(n){return Math.round(n*100)/100};
+function calc(s){
+ var due=function(a){return r2(s.bills.filter(function(b){return !b.paid&&b.acct===a}).reduce(function(t,b){return t+b.amt},0))};
+ var cD=due('Cash'),sD=due('Square'),oD=due('OCCU'),sh=Math.max(0,cD-s.cash),pO,pS;
+ if(s.first==='OCCU'){pO=Math.min(sh,s.occu);pS=Math.min(sh-pO,s.square)}else{pS=Math.min(sh,s.square);pO=Math.min(sh-pS,s.occu)}
+ var cStill=r2(sh-pO-pS),extra=Math.max(0,s.cash-cD),sB=s.square-pS,oB=s.occu-pO;
+ var oS=Math.max(0,oD-oB),dO=Math.min(extra,oS),sS=Math.max(0,sD-sB),dS=Math.min(extra-dO,sS);
+ var sS2=Math.max(0,sD-sB-dS),oS2=Math.max(0,oD-oB-dO),sP=Math.max(0,sB+dS-sD),oP=Math.max(0,oB+dO-oD);
+ var mSO=Math.min(sP,oS2),mOS=Math.min(oP,sS2);
+ var av={Cash:s.cash+pO+pS,Square:sB+dS-mSO+mOS,OCCU:oB+dO-mOS+mSO};
+ var need=r2(cStill+(sS2-mOS)+(oS2-mSO)),left=r2((sP-mSO)+(oP-mOS)+(extra-dS-dO));
+ var cum={Cash:0,Square:0,OCCU:0},st=[];
+ s.bills.map(function(b,i){return{b:b,i:i}}).sort(function(x,y){return(x.b.pri||999)-(y.b.pri||999)||x.i-y.i}).forEach(function(o){
+  var b=o.b,t;if(b.paid){t=['Paid','gr']}else{cum[b.acct]=r2(cum[b.acct]+b.amt);var a=av[b.acct];
+   t=cum[b.acct]<=a+.005?['Covered','ok']:(a>cum[b.acct]-b.amt?['Short '+m(cum[b.acct]-a),'bad']:['Need '+m(b.amt),'bad'])}
+  st.push({b:b,i:o.i,t:t})});
+ return{cD:cD,sD:sD,oD:oD,sh:sh,pO:pO,pS:pS,cStill:cStill,extra:extra,sB:sB,oB:oB,dO:dO,dS:dS,sS2:sS2,oS2:oS2,sP:sP,oP:oP,mSO:mSO,mOS:mOS,need:need,left:left,st:st}}
+function ln(a,b){return'<div class="ln"><span>'+a+'</span><b>'+b+'</b></div>'}
+function acct(name,bal,due,short,spare){return'<div><label>'+name+'</label>'+ln('Has',m(bal))+ln('Bills',m(due))+'<div class="pill '+(short>0?'p-bad':'p-ok')+'">'+(short>0?'Short '+m(short):'Covered, spare '+m(spare))+'</div></div>'}
+function plan(){var c=calc(S),h='';
+ h+='<div class="card"><h3>What I have right now</h3><div class="grid">'+[['cash','Cash'],['square','Square'],['occu','OCCU']].map(function(f){return'<div><label>'+f[1]+'</label><input inputmode="decimal" data-t="m" data-k="'+f[0]+'" value="'+S[f[0]]+'"></div>'}).join('')+'</div>';
+ h+='<label style="margin-top:10px">If rent cash is short, take it from first</label><div class="seg">'+['OCCU','Square'].map(function(a){return'<button data-act="first" data-v="'+a+'" class="'+(S.first===a?'on':'')+'">'+a+'</button>'}).join('')+'</div></div>';
+ h+=c.need>0?'<div class="big bad">You still need to make '+m(c.need)+'<small>to cover all your bills this month</small></div>':'<div class="big ok">All bills covered<small>'+m(c.left)+' left over after bills</small></div>';
+ h+='<div class="card"><h3>Step 1 – Get the cash first</h3>'+ln('Rent &amp; cash bills due',m(c.cD))+ln('Cash on hand',m(S.cash));
+ h+=c.sh>0?ln('Pull from OCCU',m(c.pO))+ln('Pull from Square',m(c.pS))+(c.cStill>0?ln('Still short on cash',m(c.cStill)):''):ln('Cash covers it',c.extra>0?m(c.extra)+' extra':'Yes');
+ h+='</div><div class="card"><h3>Step 2 – Card bills</h3><div class="grid2">'+acct('Square',c.sB,c.sD,c.sS2,c.sP)+acct('OCCU',c.oB,c.oD,c.oS2,c.oP)+'</div>';
+ if(c.dO+c.dS+c.mSO+c.mOS>0){h+='<div style="margin-top:8px">'+(c.dO?ln('Deposit extra cash to OCCU',m(c.dO)):'')+(c.dS?ln('Deposit extra cash to Square',m(c.dS)):'')+(c.mSO?ln('Move Square → OCCU',m(c.mSO)):'')+(c.mOS?ln('Move OCCU → Square',m(c.mOS)):'')+'</div>'}
+ h+='</div><div class="card"><h3>Bills in order (tap to mark paid)</h3>'+c.st.map(function(o){return'<div class="bill'+(o.b.paid?' pd':'')+'"><button class="chk'+(o.b.paid?' on':'')+'" data-act="paid" data-i="'+o.i+'">'+(o.b.paid?'✓':'')+'</button><div class="nm"><b>'+esc(o.b.n)+'</b><small>'+o.b.acct+' · priority '+(o.b.pri||'–')+' · '+m(o.b.amt)+'</small></div><span class="pill p-'+o.t[1]+'">'+o.t[0]+'</span></div>'}).join('')+'<button class="add" data-act="reset">New month: mark all unpaid</button></div>';
+ return h}
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function bills(){var h='<div class="card"><h3>Monthly bills</h3>';
+ S.bills.map(function(b,i){return[b,i]}).sort(function(x,y){return(x[0].pri||999)-(y[0].pri||999)}).forEach(function(o){var b=o[0],i=o[1];
+  h+='<div class="edit"><input data-t="b" data-i="'+i+'" data-k="n" value="'+esc(b.n)+'"><input inputmode="decimal" data-t="b" data-i="'+i+'" data-k="amt" value="'+b.amt+'"><div class="r2"><select data-t="b" data-i="'+i+'" data-k="acct">'+['Cash','Square','OCCU'].map(function(a){return'<option'+(b.acct===a?' selected':'')+'>'+a+'</option>'}).join('')+'</select><input inputmode="numeric" placeholder="Priority" data-t="b" data-i="'+i+'" data-k="pri" value="'+b.pri+'"><button class="x" data-act="delb" data-i="'+i+'">✕</button></div></div>'});
+ return h+'<button class="add" data-act="addb">+ Add a bill</button><p class="note">Each bill stays on the account you pick. Priority 1 gets paid first.</p></div>'}
+function save(){var c=calc(S),tc=0,ts=0,h='<div class="card"><h3>Saving for (after bills)</h3>';
+ S.save.forEach(function(s,i){tc+=s.cost;ts+=s.saved;h+='<div class="edit"><input data-t="s" data-i="'+i+'" data-k="n" value="'+esc(s.n)+'"><input inputmode="decimal" data-t="s" data-i="'+i+'" data-k="cost" value="'+s.cost+'"><div class="r2"><div><label>Saved so far</label><input inputmode="decimal" data-t="s" data-i="'+i+'" data-k="saved" value="'+s.saved+'"></div><div><label>Still needed</label><b>'+m(Math.max(0,s.cost-s.saved))+'</b></div><button class="x" data-act="dels" data-i="'+i+'">✕</button></div></div>'});
+ var need=Math.max(0,tc-ts);
+ return h+'<button class="add" data-act="adds">+ Add an item</button></div><div class="card"><h3>Totals</h3>'+ln('Total cost',m(tc))+ln('Saved so far',m(ts))+ln('Still needed',m(need))+ln('Left over after bills (Plan tab)',m(c.left))+ln('Still needed after leftover',m(Math.max(0,need-c.left)))+'</div>'}
+function render(){var a=document.activeElement&&document.activeElement.tagName;$('#app').innerHTML=tab==='plan'?plan():tab==='bills'?bills():save();
+ document.querySelectorAll('nav button').forEach(function(b){b.className=b.dataset.tab===tab?'on':''})}
+function persist(){clearTimeout(timer);timer=setTimeout(function(){var j=JSON.stringify(S);
+ try{if(ref)ref.set({json:j}).catch(function(){})}catch(e){}
+ try{localStorage.setItem('oct-bills',j)}catch(e){}},400)}
+function chg(){render();persist()}
+document.addEventListener('change',function(e){var t=e.target,d=t.dataset;if(!d.t)return;
+ var v=d.k==='n'||d.k==='acct'?t.value:(parseFloat(t.value)||0);
+ if(d.t==='m')S[d.k]=v;else if(d.t==='b')S.bills[d.i][d.k]=v;else S.save[d.i][d.k]=v;chg()});
+document.addEventListener('click',function(e){var t=e.target.closest('[data-act],[data-tab]');if(!t)return;var d=t.dataset,i=+d.i;
+ if(d.tab){tab=d.tab;render();window.scrollTo(0,0);return}
+ if(d.act==='first')S.first=d.v;else if(d.act==='paid')S.bills[i].paid=!S.bills[i].paid;
+ else if(d.act==='reset')S.bills.forEach(function(b){b.paid=false});
+ else if(d.act==='addb')S.bills.push({n:'New bill',amt:0,acct:'Square',pri:S.bills.length+1,paid:false});
+ else if(d.act==='delb')S.bills.splice(i,1);else if(d.act==='adds')S.save.push({n:'New item',cost:0,saved:0});
+ else if(d.act==='dels')S.save.splice(i,1);chg()});
+function load(j){try{var o=JSON.parse(j);if(o&&o.bills&&o.save)S=o}catch(e){}}
+render();
+(async function(){var got=false;
+ try{var u=await claude.use('user'),db=await claude.use('db');
+  if(u&&db){var id=await u.id();ref=db.doc('data/users/'+id+'/tracker');var s=await ref.get();if(s.exists){load(s.data().json);got=true}}}catch(e){}
+ if(!got){try{var j=localStorage.getItem('oct-bills');if(j)load(j)}catch(e){}}
+ render()})();
+</script></body></html>
